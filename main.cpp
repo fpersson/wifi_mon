@@ -17,8 +17,6 @@
 #include <thread>
 #include "networking/wifistatus.h"
 
-const std::string IFACE = "wlxd037457badcf";
-
 int main(int argc, char *argv[]) {
     int last_rx = 0;
     int last_tx = 0;
