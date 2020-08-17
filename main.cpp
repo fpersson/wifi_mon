@@ -26,11 +26,13 @@ int main(int argc, char *argv[]) {
         return 0;
     }
 
-    networking::WifiStatus ws(IFACE);
+    auto iface = argv[1];
+
+    networking::WifiStatus ws(iface);
     auto info = ws.getStatus();
     if(info.first){
         std::cout << "\t---========== WIFI_MON ==========---" << std::endl;
-        std::cout << "Iface: " << IFACE << "\t\tMax bitrate: " << info.second.bitrate << "Mbit/s" << "\n";
+        std::cout << "Iface: " << iface << "\t\tMax bitrate: " << info.second.bitrate << "Mbit/s" << "\n";
         std::cout << "SSID: " << info.second.ssid << "\t\tFreq: " <<  info.second.freq << "GHz\n" << std::endl;
     }
     while(true) {
@@ -42,7 +44,7 @@ int main(int argc, char *argv[]) {
             std::cout << "TX: " << result.second.rt_data.tx_byte - last_tx << "b/s" << std::endl;
             last_tx = result.second.rt_data.tx_byte;
         } else {
-            std::cout << "Could not get any status for: " << IFACE << std::endl;
+            std::cout << "Could not get any status for: " << iface << std::endl;
         }
         std::this_thread::sleep_for(std::chrono::seconds(1));
     }
