@@ -16,6 +16,7 @@
 #include <iostream>
 #include <thread>
 #include "networking/wifistatus.h"
+#include "networking/ifaceinfo.h"
 
 int main(int argc, char *argv[]) {
     int last_rx = 0;
@@ -28,10 +29,16 @@ int main(int argc, char *argv[]) {
 
     auto iface = argv[1];
 
+    networking::IfaceInfo ifaceInfo;
+    auto ifa = ifaceInfo.getActiveIFace();
+    if(ifa.first){
+        std::cout << "\t---========== WIFI_MON ==========---" << std::endl;
+        std::cout << "Active interface: " << ifa.second.ifaceName << "\nIP: " << ifa.second.ipAddr;
+        std::cout << "\nMac: " << ifa.second.macAddr << "\n" << std::endl;
+    }
     networking::WifiStatus ws(iface);
     auto info = ws.getStatus();
     if(info.first){
-        std::cout << "\t---========== WIFI_MON ==========---" << std::endl;
         std::cout << "Iface: " << iface << "\t\tMax bitrate: " << info.second.bitrate << "Mbit/s" << "\n";
         std::cout << "SSID: " << info.second.ssid << "\t\tFreq: " <<  info.second.freq << "GHz\n" << std::endl;
     }

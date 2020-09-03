@@ -11,41 +11,22 @@
     LOSS OF USE, DATA OR PROFITS, WHETHER IN AN ACTION OF CONTRACT, NEGLIGENCE OR
     OTHER TORTIOUS ACTION, ARISING OUT OF OR IN CONNECTION WITH THE USE OR PERFORMANCE
     OF THIS SOFTWARE.
- */
+*/
 
-#ifndef WIFI_MON_STRUCTS_H
-#define WIFI_MON_STRUCTS_H
+#ifndef WIFI_MON_IFACEINFO_H
+#define WIFI_MON_IFACEINFO_H
 
-#include <iostream>
+#include "structs.h"
 
-namespace networking{
-    /**
-     * contain rx/tx data
-     */
-    struct RTData{
-        int rx_byte;
-        int rx_packets;
-        int tx_byte;
-        int tx_packets;
+namespace networking {
+    class IfaceInfo {
+    public:
+        explicit IfaceInfo() = default;
+
+        IfaceDataResult getActiveIFace();
+    private:
+        std::pair<bool, std::string> getMac(const std::string &iface);
     };
+} //namespace
 
-    struct WifiInfo{
-        char ssid[33];
-        int bitrate;
-        int signal;
-        float freq; //in GHz
-        RTData rt_data;
-    };
-
-    struct IfaceData{
-        std::string ifaceName;
-        std::string ipAddr;
-        std::string macAddr;
-    };
-
-    using SignalResult = std::pair<bool, WifiInfo>;
-    using RTDataResult = std::pair<bool, RTData>;
-    using IfaceDataResult = std::pair<bool, IfaceData>;
-}
-
-#endif //WIFI_MON_STRUCTS_H
+#endif //WIFI_MON_IFACEINFO_H
